@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ketan Dhadve — DevOps Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --off-black: #111111;
+    --surface: #161616;
+    --border: #222222;
+    --orange: #ff4d00;
+    --orange-hover: #ff6520;
+    --white: #f5f5f5;
+    --muted: #666666;
+    --muted2: #444444;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'Space Grotesk', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active { color: var(--orange); }
+
+  /* ── CORNER BRACKETS ── */
+  .bracket-frame {
+    position: absolute;
+    inset: 18px;
+    pointer-events: none;
+  }
+
+  .bracket-frame::before,
+  .bracket-frame::after,
+  .bracket-frame span::before,
+  .bracket-frame span::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: var(--muted2);
+    border-style: solid;
+  }
+
+  .bracket-frame::before { top: 0; left: 0; border-width: 1px 0 0 1px; }
+  .bracket-frame::after  { top: 0; right: 0; border-width: 1px 1px 0 0; }
+  .bracket-frame span::before { bottom: 0; left: 0; border-width: 0 0 1px 1px; }
+  .bracket-frame span::after  { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+
+  /* ── HERO ── */
+  #home {
+    position: relative;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    padding: 100px 40px 40px;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .hero-headline {
+    grid-column: 1 / 3;
+    grid-row: 1;
+    align-self: end;
+    padding-bottom: 20px;
+  }
+
+  .hero-headline h1 {
+    font-family: var(--font-display);
+    font-size: clamp(72px, 10vw, 130px);
+    line-height: 0.92;
+    letter-spacing: -1px;
+    color: var(--white);
+  }
+
+  .hero-headline h1 .name-highlight {
+    display: block;
+  }
+
+  .hero-available {
+    grid-column: 3;
+    grid-row: 1;
+    text-align: right;
+    align-self: end;
+    padding-bottom: 20px;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+
+  .available-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    background: #00cc66;
+    border-radius: 50%;
+    margin-right: 6px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero-year {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+    padding-top: 20px;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  .hero-image-wrap {
+    grid-column: 2;
+    grid-row: 2 / 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+  }
+
+  .hero-image-box {
+    width: 280px;
+    height: 340px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-image-box .avatar-placeholder {
+    font-family: var(--font-display);
+    font-size: 80px;
+    color: var(--muted2);
+    letter-spacing: 2px;
+  }
+
+  /* DevOps tools floating labels */
+  .hero-image-box::before {
+    content: 'DevOps';
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    font-size: 10px;
+    color: var(--orange);
+    letter-spacing: 2px;
+    font-weight: 600;
+  }
+
+  .hero-bio {
+    grid-column: 3;
+    grid-row: 2;
+    align-self: center;
+    padding-left: 20px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 260px;
+    justify-self: end;
+  }
+
+  .hero-cta {
+    grid-column: 3;
+    grid-row: 3;
+    justify-self: end;
+    align-self: end;
+    padding-top: 20px;
+  }
+
+  .hero-cta a {
+    display: inline-block;
+    background: var(--orange);
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 24px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: background 0.2s;
+  }
+
+  .hero-cta a:hover { background: var(--orange-hover); }
+
+  .hero-contacts {
+    grid-column: 1;
+    grid-row: 3;
+    align-self: end;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 2;
+  }
+
+  .hero-links {
+    grid-column: 1 / 4;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+    margin-top: 32px;
+  }
+
+  .hero-links a {
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+
+  .hero-links a:hover { color: var(--white); }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 100px 40px;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-size: 11px;
+    color: var(--orange);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+    font-weight: 600;
+  }
+
+  /* ── ABOUT ── */
+  #about .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-title {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 0.95;
+    margin-bottom: 32px;
+  }
+
+  .about-body {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.9;
+    margin-bottom: 24px;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .skill-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+    font-size: 12px;
+    color: var(--muted);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .skill-item:hover {
+    border-color: var(--orange);
+    color: var(--white);
+  }
+
+  .skill-item strong {
+    display: block;
+    color: var(--white);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+    margin-bottom: 32px;
+  }
+
+  .exp-company {
+    font-family: var(--font-display);
+    font-size: 36px;
+    letter-spacing: 1px;
+  }
+
+  .exp-date {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .exp-role {
+    font-size: 13px;
+    color: var(--orange);
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+  }
+
+  .exp-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 40px;
+  }
+
+  .exp-list li {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    padding-left: 16px;
+    border-left: 2px solid var(--border);
+    transition: border-color 0.2s;
+  }
+
+  .exp-list li:hover { border-color: var(--orange); color: var(--white); }
+
+  /* ── PROJECTS ── */
+  #projects .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 36px;
+    transition: border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--orange);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .project-card:hover { border-color: var(--orange); }
+  .project-card:hover::after { transform: scaleX(1); }
+
+  .project-number {
+    font-family: var(--font-display);
+    font-size: 48px;
+    color: var(--muted2);
+    margin-bottom: 16px;
+    line-height: 1;
+  }
+
+  .project-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .tag {
+    font-size: 10px;
+    color: var(--orange);
+    border: 1px solid var(--orange);
+    padding: 3px 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .project-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .project-desc li {
+    margin-bottom: 6px;
+    padding-left: 12px;
+    position: relative;
+  }
+
+  .project-desc li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--orange);
+    font-size: 10px;
+  }
+
+  /* ── TECH STACK ── */
+  #skills .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+
+  .stack-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px;
+    transition: border-color 0.2s;
+  }
+
+  .stack-card:hover { border-color: var(--orange); }
+
+  .stack-category {
+    font-size: 10px;
+    color: var(--orange);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .stack-items {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 2;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .contact-title {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 6vw, 90px);
+    line-height: 0.92;
+    margin-bottom: 24px;
+  }
+
+  .contact-sub {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 32px;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .contact-link-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+    text-decoration: none;
+    color: var(--white);
+    font-size: 13px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .contact-link-item:hover {
+    border-color: var(--orange);
+    background: var(--off-black);
+  }
+
+  .contact-link-label { color: var(--muted); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+  .contact-link-arrow { color: var(--orange); font-size: 16px; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { gap: 16px; }
+
+    #home {
+      grid-template-columns: 1fr;
+      padding: 80px 20px 32px;
+    }
+
+    .hero-headline { grid-column: 1; grid-row: 1; }
+    .hero-available { grid-column: 1; grid-row: 2; text-align: left; }
+    .hero-image-wrap { grid-column: 1; grid-row: 3; padding: 20px 0; }
+    .hero-bio { grid-column: 1; grid-row: 4; padding: 0; max-width: 100%; }
+    .hero-cta { grid-column: 1; grid-row: 5; justify-self: start; }
+    .hero-contacts { grid-column: 1; grid-row: 6; }
+
+    section { padding: 60px 20px; }
+
+    #about .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .exp-list { grid-template-columns: 1fr; }
+    #projects .projects-grid { grid-template-columns: 1fr; }
+    #skills .stack-grid { grid-template-columns: 1fr 1fr; }
+    #contact { grid-template-columns: 1fr; gap: 40px; }
+    footer { flex-direction: column; gap: 8px; text-align: center; }
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">KD</a>
+  <ul class="nav-links">
+    <li><a href="#home" class="active">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="bracket-frame"><span></span></div>
+
+  <div class="hero-headline fade-in">
+    <h1>Hello I'm<br><span class="name-highlight">Ketan<br>Dhadve</span></h1>
+  </div>
+
+  <div class="hero-available fade-in">
+    <span class="available-dot"></span>Available for opportunities
+  </div>
+
+  <div class="hero-year fade-in">© 2025–26</div>
+
+  <div class="hero-image-wrap fade-in">
+    <div class="hero-image-box">
+      <span class="avatar-placeholder">KD</span>
+    </div>
+  </div>
+
+  <div class="hero-bio fade-in">
+    Building robust CI/CD pipelines and cloud infrastructure that lets engineering teams ship faster and sleep better. From Kubernetes clusters to Terraform modules — automation is my craft.
+  </div>
+
+  <div class="hero-cta fade-in">
+    <a href="mailto:ketandhadve95@gmail.com">Hire Me →</a>
+  </div>
+
+  <div class="hero-contacts fade-in">
+    Email: ketandhadve95@gmail.com<br>
+    Phone: +91-8010338009<br>
+    Pune, Maharashtra, India
+  </div>
+
+  <div class="hero-links fade-in">
+    <a href="https://linkedin.com/in/ketan-dhadve-697a49357" target="_blank">LinkedIn</a>
+    <a href="https://github.com/CloudwithKetan" target="_blank">GitHub</a>
+    <a href="mailto:ketandhadve95@gmail.com">Email</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About Me</div>
+  <div class="about-grid">
+    <div>
+      <h2 class="about-title fade-in">DevOps<br>Engineer<br>& Cloud<br>Builder</h2>
+      <p class="about-body fade-in">
+        Motivated DevOps Engineer with hands-on experience in CI/CD pipeline design, containerization using Docker, Kubernetes orchestration, and cloud infrastructure across AWS, GCP, and Azure.
+      </p>
+      <p class="about-body fade-in">
+        Proficient in Terraform for Infrastructure as Code, Git-based workflows, and Linux server administration. Experienced in monitoring and observability using Prometheus, Grafana, Datadog, and CloudWatch.
+      </p>
+      <p class="about-body fade-in">
+        BCA Graduate from Savitribai Phule Pune University (CGPA: 7.8/10) | Currently interning at Hisan-Labs Private Limited.
+      </p>
+    </div>
+    <div class="fade-in">
+      <div class="skills-grid">
+        <div class="skill-item"><strong>Cloud</strong>AWS · GCP · Azure</div>
+        <div class="skill-item"><strong>CI/CD</strong>Jenkins · GitHub Actions · GitLab CI</div>
+        <div class="skill-item"><strong>Containers</strong>Docker · Docker Compose · Docker Hub</div>
+        <div class="skill-item"><strong>Orchestration</strong>Kubernetes · kubectl</div>
+        <div class="skill-item"><strong>IaC</strong>Terraform · CloudFormation</div>
+        <div class="skill-item"><strong>Monitoring</strong>Prometheus · Grafana · Datadog · CloudWatch</div>
+        <div class="skill-item"><strong>Scripting</strong>Bash · Shell · Python</div>
+        <div class="skill-item"><strong>Databases</strong>MySQL · PostgreSQL · MongoDB</div>
+        <div class="skill-item"><strong>Code Quality</strong>SonarQube · OWASP ZAP · Trivy</div>
+        <div class="skill-item"><strong>Version Control</strong>Git · GitHub · GitLab</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Experience</div>
+  <div class="exp-header fade-in">
+    <span class="exp-company">Hisan-Labs Private Limited</span>
+    <span class="exp-date">Oct 2025 — Present · Pune</span>
+  </div>
+  <div class="exp-role fade-in">DevOps Engineer Intern</div>
+  <ul class="exp-list fade-in">
+    <li>Designed and implemented a Jenkins-based CI/CD pipeline reducing manual deployment effort by 60% through automated build, test, and deploy stages</li>
+    <li>Configured GitHub webhooks to trigger automated build and deployment workflows on every code commit for rapid feedback loops</li>
+    <li>Integrated SonarQube for static code analysis into the CI pipeline, improving code quality across all services</li>
+    <li>Containerized 3-tier web applications using Docker with custom Dockerfiles and Docker Compose for consistent environments</li>
+    <li>Deployed and managed containerized microservices on Kubernetes using Deployments, Services, and ConfigMaps — maintaining 99.5% uptime</li>
+    <li>Configured Kubernetes HPA to handle traffic fluctuations with rolling update strategies for zero-downtime releases</li>
+    <li>Automated provisioning of AWS EC2 instances, VPCs, and security groups using Terraform, reducing infrastructure setup time by 40%</li>
+    <li>Managed Terraform state files remotely using S3 backend with state locking via DynamoDB</li>
+    <li>Monitored application health using Prometheus and Grafana dashboards; configured alerts via CloudWatch for EC2 and RDS services</li>
+    <li>Administered Linux (Ubuntu) servers including user management, cronjob scheduling, log rotation, and firewall config via UFW</li>
+  </ul>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">Projects</div>
+  <div class="projects-grid">
+
+    <div class="project-card fade-in">
+      <div class="project-number">01</div>
+      <div class="project-title">FlightReservation Microservices</div>
+      <div class="project-tags">
+        <span class="tag">Docker</span>
+        <span class="tag">Kubernetes</span>
+        <span class="tag">GitHub</span>
+        <span class="tag">Microservices</span>
+      </div>
+      <ul class="project-desc">
+        <li>Containerized 5+ independent microservices (booking, auth, payment, notification, API gateway) with multi-stage builds — reducing image size by 60%</li>
+        <li>Deployed full microservices suite on Kubernetes using Deployments, Services, and ConfigMaps with rolling update strategy</li>
+        <li>Configured ClusterIP and LoadBalancer services with NetworkPolicies for secure inter-service communication</li>
+        <li>Implemented HPA with custom CPU and memory thresholds to handle 5x peak traffic automatically</li>
+        <li>Managed source control via GitFlow branching strategy throughout the project lifecycle</li>
+      </ul>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-number">02</div>
+      <div class="project-title">EASY CRUD — 3-Tier App Deployment</div>
+      <div class="project-tags">
+        <span class="tag">Docker</span>
+        <span class="tag">Docker Compose</span>
+        <span class="tag">MySQL</span>
+        <span class="tag">Linux</span>
+        <span class="tag">Git</span>
+      </div>
+      <ul class="project-desc">
+        <li>Architected a production-grade 3-tier app (React + Node.js + MySQL) using Docker Compose with isolated bridge networks per tier</li>
+        <li>Configured persistent volumes for MySQL container to ensure data durability across restarts</li>
+        <li>Integrated RESTful APIs with MySQL via environment-variable-based connection management — no hardcoded credentials</li>
+        <li>Managed full project lifecycle with Git: feature branching, pull requests, and semantic version tagging</li>
+        <li>Deployed on Linux (Ubuntu 22.04) with system firewall rules and environment variable management</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section id="skills">
+  <div class="section-label">Tech Stack</div>
+  <div class="stack-grid">
+    <div class="stack-card fade-in">
+      <div class="stack-category">Cloud Platforms</div>
+      <div class="stack-items">AWS (EC2, S3, VPC, IAM, EKS)<br>Google Cloud Platform<br>Microsoft Azure</div>
+    </div>
+    <div class="stack-card fade-in">
+      <div class="stack-category">CI/CD</div>
+      <div class="stack-items">Jenkins<br>GitHub Actions<br>GitLab CI</div>
+    </div>
+    <div class="stack-card fade-in">
+      <div class="stack-category">Containers & Orchestration</div>
+      <div class="stack-items">Docker · Docker Compose<br>Docker Hub · AWS ECR<br>Kubernetes · kubectl</div>
+    </div>
+    <div class="stack-card fade-in">
+      <div class="stack-category">Infrastructure as Code</div>
+      <div class="stack-items">Terraform<br>AWS CloudFormation</div>
+    </div>
+    <div class="stack-card fade-in">
+      <div class="stack-category">Monitoring & Logging</div>
+      <div class="stack-items">Prometheus · Grafana<br>Datadog · CloudWatch<br>ELK Stack</div>
+    </div>
+    <div class="stack-card fade-in">
+      <div class="stack-category">Code Quality & Security</div>
+      <div class="stack-items">SonarQube<br>OWASP ZAP<br>Trivy</div>
+    </div>
+    <div class="stack-card fade-in">
+      <div class="stack-category">Scripting</div>
+      <div class="stack-items">Bash · Shell Scripting<br>Python</div>
+    </div>
+    <div class="stack-card fade-in">
+      <div class="stack-category">Databases & Build</div>
+      <div class="stack-items">MySQL · PostgreSQL · MongoDB<br>Maven · npm</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div>
+    <div class="section-label">Contact</div>
+    <h2 class="contact-title fade-in">Let's<br>Work<br>Together</h2>
+    <p class="contact-sub fade-in">Open to DevOps Engineer roles, cloud infrastructure projects, and automation challenges. Based in Pune — open to remote work too.</p>
+  </div>
+  <div class="contact-links fade-in">
+    <a href="mailto:ketandhadve95@gmail.com" class="contact-link-item">
+      <div>
+        <div class="contact-link-label">Email</div>
+        <div>ketandhadve95@gmail.com</div>
+      </div>
+      <span class="contact-link-arrow">↗</span>
+    </a>
+    <a href="https://linkedin.com/in/ketan-dhadve-697a49357" target="_blank" class="contact-link-item">
+      <div>
+        <div class="contact-link-label">LinkedIn</div>
+        <div>linkedin.com/in/ketan-dhadve-697a49357</div>
+      </div>
+      <span class="contact-link-arrow">↗</span>
+    </a>
+    <a href="https://github.com/CloudwithKetan" target="_blank" class="contact-link-item">
+      <div>
+        <div class="contact-link-label">GitHub</div>
+        <div>github.com/CloudwithKetan</div>
+      </div>
+      <span class="contact-link-arrow">↗</span>
+    </a>
+    <a href="tel:+918010338009" class="contact-link-item">
+      <div>
+        <div class="contact-link-label">Phone</div>
+        <div>+91-8010338009</div>
+      </div>
+      <span class="contact-link-arrow">↗</span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Ketan Dhadve — DevOps Engineer</span>
+  <span>Pune, Maharashtra, India</span>
+</footer>
+
+<script>
+  // Scroll fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Active nav link
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 100) current = sec.id;
+    });
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+
+</body>
+</html>
