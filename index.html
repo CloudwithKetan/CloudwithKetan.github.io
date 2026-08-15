@@ -202,34 +202,80 @@ footer{border-top:1px solid var(--border);padding:22px 44px;display:flex;justify
   .exp-head{flex-direction:column;gap:6px}
 }
 
-/* DYNAMIC UI */
-.dynamic-controls{position:fixed;right:22px;bottom:22px;z-index:120;display:flex;gap:8px}
-.dynamic-btn{border:1px solid var(--border);background:var(--surface);color:var(--white);padding:10px 12px;font:600 11px var(--body);letter-spacing:.5px;cursor:pointer;transition:.2s}
-.dynamic-btn:hover{border-color:var(--orange);color:var(--orange)}
-.dynamic-btn .status-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#00cc66;margin-right:6px}
-.hero-title h1 .typing{color:var(--orange)}
-[data-theme="light"]{--black:#f4f4f4;--surface:#fff;--border:#ddd;--orange:#e33d00;--white:#111;--muted:#666;--muted2:#ccc}
-[data-theme="light"] nav{background:rgba(244,244,244,.92)}
-[data-theme="light"] .hero-photo{background:linear-gradient(160deg,#eee,#fff)!important}
-[data-theme="light"] .hero-photo span:not(.hero-photo-label){color:#ccc!important}
-.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:28px}
-.stat{background:var(--surface);border:1px solid var(--border);padding:18px}
-.stat strong{display:block;font-family:var(--display);font-size:34px;line-height:1;color:var(--orange)}
-.stat span{font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
-.filter-row{display:flex;flex-wrap:wrap;gap:7px;margin:-28px 0 28px}
-.filter-btn{background:transparent;color:var(--muted);border:1px solid var(--border);padding:7px 11px;font:600 9px var(--body);letter-spacing:1px;text-transform:uppercase;cursor:pointer}
-.filter-btn.active,.filter-btn:hover{color:var(--orange);border-color:var(--orange)}
-.project-card.hidden{display:none}
-.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--white);color:var(--black);padding:10px 16px;font-size:11px;opacity:0;pointer-events:none;transition:.25s;z-index:200}
-.toast.show{opacity:1;transform:translate(-50%,0)}
+/* ===== DYNAMIC ENHANCEMENTS ===== */
+#dynamic-tools{
+  position:fixed;right:20px;bottom:20px;z-index:9999;
+  display:flex;gap:8px;
+}
+.dynamic-tool{
+  border:1px solid var(--border);background:var(--surface);color:var(--white);
+  padding:10px 14px;border-radius:2px;cursor:pointer;
+  font:600 11px var(--body);letter-spacing:.5px;
+}
+.dynamic-tool:hover{border-color:var(--orange);color:var(--orange)}
+.dynamic-tool .live-dot{
+  display:inline-block;width:6px;height:6px;border-radius:50%;
+  background:#00cc66;margin-right:6px;
+}
+#dynamic-toast{
+  position:fixed;left:50%;bottom:25px;z-index:10000;
+  transform:translate(-50%,20px);opacity:0;pointer-events:none;
+  background:var(--white);color:var(--black);
+  padding:10px 16px;font-size:11px;transition:.25s;
+}
+#dynamic-toast.show{opacity:1;transform:translate(-50%,0)}
+.dynamic-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:30px;
+}
+.dynamic-stat{
+  background:var(--surface);border:1px solid var(--border);padding:18px;
+}
+.dynamic-stat strong{
+  display:block;font-family:var(--display);font-size:34px;
+  line-height:1;color:var(--orange);
+}
+.dynamic-stat span{
+  display:block;margin-top:5px;font-size:9px;color:var(--muted);
+  letter-spacing:1.5px;text-transform:uppercase;
+}
+.project-filters{
+  display:flex;flex-wrap:wrap;gap:7px;margin:-28px 0 28px;
+}
+.project-filter{
+  background:transparent;color:var(--muted);border:1px solid var(--border);
+  padding:7px 11px;cursor:pointer;
+  font:600 9px var(--body);letter-spacing:1px;text-transform:uppercase;
+}
+.project-filter:hover,.project-filter.active{
+  color:var(--orange);border-color:var(--orange);
+}
+.project-card.dynamic-hidden{display:none!important}
+
+[data-theme="light"]{
+  --black:#f5f5f5;--surface:#fff;--border:#d9d9d9;
+  --white:#111;--muted:#666;--muted2:#ccc;
+}
+[data-theme="light"] nav{background:rgba(245,245,245,.94)}
+[data-theme="light"] .hero-photo{
+  background:linear-gradient(160deg,#eee,#fff)!important;
+}
+[data-theme="light"] .hero-photo > span:not(.hero-photo-label){color:#ccc!important}
+
 @media(max-width:768px){
-  .dynamic-controls{right:12px;bottom:12px}
-  .stat-row{grid-template-columns:1fr}
+  #dynamic-tools{right:10px;bottom:10px}
+  .dynamic-stats{grid-template-columns:1fr}
 }
 
 </style>
 </head>
 <body>
+
+<div id="dynamic-tools">
+  <button class="dynamic-tool" id="themeButton" type="button">☼ Theme</button>
+  <button class="dynamic-tool" id="copyButton" type="button">Copy Email</button>
+</div>
+<div id="dynamic-toast" role="status" aria-live="polite"></div>
+
 
 <nav>
   <span class="nav-logo">KD</span>
@@ -283,12 +329,6 @@ footer{border-top:1px solid var(--border);padding:22px 44px;display:flex;justify
       <p class="about-text fi">Motivated DevOps Engineer with hands-on experience in CI/CD pipeline design, containerization using Docker, Kubernetes orchestration, and cloud infrastructure across AWS, GCP, and Azure.</p>
       <p class="about-text fi">Proficient in Terraform for Infrastructure as Code, Git-based workflows, and Linux server administration. Experienced in monitoring using Prometheus, Grafana, Datadog, and CloudWatch.</p>
       <p class="about-text fi">BCA Graduate · Savitribai Phule Pune University · CGPA 7.8/10</p>
-
-      <div class="stat-row fi" id="liveStats">
-        <div class="stat"><strong data-count="9">0</strong><span>Months Experience</span></div>
-        <div class="stat"><strong data-count="3">0</strong><span>Microservices</span></div>
-        <div class="stat"><strong data-count="10">0</strong><span>Core Skill Areas</span></div>
-      </div>
     </div>
     <div class="skills-grid fi">
       <div class="skill-item"><strong>Cloud</strong><span>AWS · GCP · Azure</span></div>
@@ -303,6 +343,21 @@ footer{border-top:1px solid var(--border);padding:22px 44px;display:flex;justify
       <div class="skill-item"><strong>Version Control</strong><span>Git · GitHub · GitLab</span></div>
     </div>
   </div>
+
+<div class="dynamic-stats">
+  <div class="dynamic-stat">
+    <strong data-target="9">0</strong>
+    <span>Months Experience</span>
+  </div>
+  <div class="dynamic-stat">
+    <strong data-target="3">0</strong>
+    <span>Microservices</span>
+  </div>
+  <div class="dynamic-stat">
+    <strong data-target="10">0</strong>
+    <span>Skill Areas</span>
+  </div>
+</div>
 </section>
 
 <!-- EXPERIENCE -->
@@ -331,15 +386,15 @@ footer{border-top:1px solid var(--border);padding:22px 44px;display:flex;justify
 <section id="projects">
   <div class="label">Projects</div>
 
-  <div class="filter-row" id="projectFilters">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="aws">AWS</button>
-    <button class="filter-btn" data-filter="kubernetes">Kubernetes</button>
-    <button class="filter-btn" data-filter="terraform">Terraform</button>
-    <button class="filter-btn" data-filter="jenkins">Jenkins</button>
-  </div>
+<div class="project-filters" id="projectFilters">
+  <button class="project-filter active" data-filter="all" type="button">All</button>
+  <button class="project-filter" data-filter="aws" type="button">AWS</button>
+  <button class="project-filter" data-filter="kubernetes" type="button">Kubernetes</button>
+  <button class="project-filter" data-filter="terraform" type="button">Terraform</button>
+  <button class="project-filter" data-filter="jenkins" type="button">Jenkins</button>
+</div>
   <div class="projects-grid single">
-    <div class="project-card fi" data-tags="aws kubernetes terraform jenkins springboot mongodb cloudfront">
+    <div class="project-card fi" data-project-tags="aws kubernetes terraform jenkins">
       <div class="proj-num">01</div>
       <div class="proj-title">B2B Medical ERP Platform (Med-Pharm)</div>
       <div class="proj-tags">
@@ -400,13 +455,6 @@ footer{border-top:1px solid var(--border);padding:22px 44px;display:flex;justify
   </div>
 </section>
 
-
-<div class="dynamic-controls">
-  <button class="dynamic-btn" id="themeToggle" type="button">☼ Theme</button>
-  <button class="dynamic-btn" id="copyEmail" type="button">Copy Email</button>
-</div>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
 <footer>
   <span>© 2026 Ketan Dhadve — DevOps Engineer</span>
   <span>Pune, Maharashtra, India</span>
@@ -414,9 +462,7 @@ footer{border-top:1px solid var(--border);padding:22px 44px;display:flex;justify
 
 <script>
 const io = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(e.isIntersecting) e.target.classList.add('on');
-  });
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('on') })
 },{threshold:0.08});
 document.querySelectorAll('.fi').forEach(el => io.observe(el));
 
@@ -426,88 +472,133 @@ window.addEventListener('scroll', () => {
   let cur = '';
   secs.forEach(s => { if(window.scrollY >= s.offsetTop - 120) cur = s.id });
   links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#'+cur));
-},{passive:true});
-
-/* Dynamic hero typing effect */
-const heroName = document.querySelector('.hero-title h1');
-if (heroName) {
-  const original = heroName.innerHTML;
-  heroName.innerHTML = 'Hello<br>I'm<br><span class="typing"></span>';
-  const typing = heroName.querySelector('.typing');
-  const text = 'Ketan Dhadve';
-  let i = 0;
-  function typeName(){
-    if(i <= text.length){
-      typing.textContent = text.slice(0,i++);
-      setTimeout(typeName, 95);
-    }
-  }
-  setTimeout(typeName, 500);
-}
-
-/* Animated statistics */
-const stats = document.querySelectorAll('[data-count]');
-const statObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if(!entry.isIntersecting || entry.target.dataset.done) return;
-    entry.target.dataset.done = '1';
-    const target = Number(entry.target.dataset.count);
-    let current = 0;
-    const step = Math.max(1, Math.ceil(target / 18));
-    const timer = setInterval(() => {
-      current = Math.min(target, current + step);
-      entry.target.textContent = current;
-      if(current >= target) clearInterval(timer);
-    }, 45);
-  });
-},{threshold:.5});
-stats.forEach(s => statObserver.observe(s));
-
-/* Project filtering */
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const filter = btn.dataset.filter;
-    document.querySelectorAll('.project-card[data-tags]').forEach(card => {
-      const tags = card.dataset.tags.split(' ');
-      card.classList.toggle('hidden', filter !== 'all' && !tags.includes(filter));
-    });
-  });
-});
-
-/* Theme persistence */
-const savedTheme = localStorage.getItem('portfolio-theme');
-if(savedTheme) document.documentElement.dataset.theme = savedTheme;
-
-document.getElementById('themeToggle').addEventListener('click', () => {
-  const root = document.documentElement;
-  const next = root.dataset.theme === 'light' ? '' : 'light';
-  if(next) root.dataset.theme = next;
-  else delete root.dataset.theme;
-  localStorage.setItem('portfolio-theme', next);
-});
-
-/* Copy email */
-const toast = document.getElementById('toast');
-function showToast(message){
-  toast.textContent = message;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 1800);
-}
-document.getElementById('copyEmail').addEventListener('click', async () => {
-  try {
-    await navigator.clipboard.writeText('ketandhadve95@gmail.com');
-    showToast('Email copied to clipboard');
-  } catch {
-    showToast('Copy is not available in this browser');
-  }
-});
-
-/* Update copyright year automatically */
-document.querySelectorAll('footer span:first-child').forEach(el => {
-  el.textContent = `© ${new Date().getFullYear()} Ketan Dhadve — DevOps Engineer`;
 });
 </script>
+
+<script>
+(function(){
+  "use strict";
+
+  /* Theme */
+  var themeButton = document.getElementById("themeButton");
+  var savedTheme = localStorage.getItem("ketan-theme");
+
+  if(savedTheme === "light"){
+    document.documentElement.setAttribute("data-theme","light");
+  }
+
+  if(themeButton){
+    themeButton.addEventListener("click", function(){
+      var root = document.documentElement;
+      var isLight = root.getAttribute("data-theme") === "light";
+
+      if(isLight){
+        root.removeAttribute("data-theme");
+        localStorage.setItem("ketan-theme","dark");
+      }else{
+        root.setAttribute("data-theme","light");
+        localStorage.setItem("ketan-theme","light");
+      }
+    });
+  }
+
+  /* Copy email */
+  var copyButton = document.getElementById("copyButton");
+  var toast = document.getElementById("dynamic-toast");
+
+  function showToast(message){
+    if(!toast) return;
+    toast.textContent = message;
+    toast.classList.add("show");
+    setTimeout(function(){
+      toast.classList.remove("show");
+    },1800);
+  }
+
+  if(copyButton){
+    copyButton.addEventListener("click", function(){
+      var email = "ketandhadve95@gmail.com";
+
+      if(navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(email).then(function(){
+          showToast("Email copied");
+        }).catch(function(){
+          showToast(email);
+        });
+      }else{
+        showToast(email);
+      }
+    });
+  }
+
+  /* Project filters */
+  var filterButtons = document.querySelectorAll(".project-filter");
+  var projectCards = document.querySelectorAll("[data-project-tags]");
+
+  filterButtons.forEach(function(button){
+    button.addEventListener("click", function(){
+      filterButtons.forEach(function(b){ b.classList.remove("active"); });
+      button.classList.add("active");
+
+      var filter = button.getAttribute("data-filter");
+
+      projectCards.forEach(function(card){
+        var tags = (card.getAttribute("data-project-tags") || "").split(" ");
+        var hide = filter !== "all" && tags.indexOf(filter) === -1;
+        card.classList.toggle("dynamic-hidden", hide);
+      });
+    });
+  });
+
+  /* Animated counters */
+  var counters = document.querySelectorAll("[data-target]");
+
+  function animateCounter(el){
+    if(el.dataset.animated === "true") return;
+    el.dataset.animated = "true";
+
+    var target = parseInt(el.getAttribute("data-target"),10);
+    var current = 0;
+    var increment = Math.max(1, Math.ceil(target / 20));
+
+    var timer = setInterval(function(){
+      current += increment;
+
+      if(current >= target){
+        current = target;
+        clearInterval(timer);
+      }
+
+      el.textContent = current;
+    },45);
+  }
+
+  if("IntersectionObserver" in window){
+    var counterObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          animateCounter(entry.target);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    },{threshold:0.4});
+
+    counters.forEach(function(counter){
+      counterObserver.observe(counter);
+    });
+  }else{
+    counters.forEach(animateCounter);
+  }
+
+  /* Dynamic footer year */
+  var footer = document.querySelector("footer span:first-child");
+  if(footer){
+    footer.textContent =
+      "© " + new Date().getFullYear() + " Ketan Dhadve — DevOps Engineer";
+  }
+
+})();
+</script>
+
 </body>
 </html>
