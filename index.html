@@ -59,6 +59,22 @@ nav a:hover,nav a.active{color:var(--orange)}
   line-height:0.9;
   color:var(--white);
 }
+.hero-role{
+  display:block;
+  font-family:var(--body);
+  font-size:clamp(13px,1.6vw,18px);
+  font-weight:600;
+  letter-spacing:2px;
+  color:var(--orange);
+  text-transform:uppercase;
+  margin-top:14px;
+  min-height:1.4em;
+}
+.hero-role .cursor{
+  display:inline-block;width:2px;height:0.9em;background:var(--orange);
+  margin-left:3px;vertical-align:-2px;animation:blink 0.9s step-end infinite;
+}
+@keyframes blink{50%{opacity:0}}
 
 .hero-photo{
   grid-column:2;grid-row:1/4;
@@ -72,6 +88,13 @@ nav a:hover,nav a.active{color:var(--orange)}
   width:100%;height:100%;
   object-fit:cover;object-position:center top;
   display:block;
+}
+.hero-photo-placeholder{
+  width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(160deg,#161616,#0a0a0a);
+}
+.hero-photo-placeholder span{
+  font-family:var(--display);font-size:64px;letter-spacing:4px;color:#2a2a2a;
 }
 .hero-photo-label{
   position:absolute;bottom:12px;left:12px;
@@ -124,6 +147,15 @@ nav a:hover,nav a.active{color:var(--orange)}
 section:not(#home){padding:100px 44px;border-top:1px solid var(--border)}
 .label{font-size:10px;color:var(--orange);letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:52px}
 
+/* STATS */
+#stats{padding:60px 44px;border-top:1px solid var(--border)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.stat-card{background:var(--surface);border:1px solid var(--border);padding:28px 20px;text-align:center;transition:border-color .2s}
+.stat-card:hover{border-color:var(--orange)}
+.stat-number{font-family:var(--display);font-size:44px;color:var(--white);line-height:1}
+.stat-number .suffix{color:var(--orange)}
+.stat-label{font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:8px}
+
 /* ABOUT */
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
 .about-title{font-family:var(--display);font-size:clamp(44px,5.5vw,80px);line-height:0.92;margin-bottom:28px}
@@ -135,6 +167,7 @@ section:not(#home){padding:100px 44px;border-top:1px solid var(--border)}
 .skill-item span{font-size:11px;color:var(--muted)}
 
 /* EXPERIENCE */
+.exp-block+.exp-block{margin-top:48px}
 .exp-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:18px;margin-bottom:28px}
 .exp-company{font-family:var(--display);font-size:42px;letter-spacing:1px}
 .exp-date{font-size:11px;color:var(--muted)}
@@ -157,6 +190,21 @@ section:not(#home){padding:100px 44px;border-top:1px solid var(--border)}
 .proj-list{list-style:none}
 .proj-list li{font-size:12px;color:var(--muted);line-height:1.75;padding-left:14px;position:relative;margin-bottom:5px}
 .proj-list li::before{content:'▸';position:absolute;left:0;color:var(--orange);font-size:9px;top:3px}
+
+/* GITHUB FEED */
+.gh-head{display:flex;justify-content:space-between;align-items:baseline;margin:56px 0 20px}
+.gh-head h3{font-family:var(--display);font-size:26px;letter-spacing:1px;font-weight:400}
+.gh-head a{font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;text-decoration:none}
+.gh-head a:hover{color:var(--orange)}
+.gh-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.gh-card{background:var(--surface);border:1px solid var(--border);padding:20px;transition:border-color .2s;text-decoration:none;color:var(--white);display:block}
+.gh-card:hover{border-color:var(--orange)}
+.gh-card-name{font-size:13px;font-weight:700;margin-bottom:8px;word-break:break-word}
+.gh-card-desc{font-size:11px;color:var(--muted);line-height:1.6;margin-bottom:14px;min-height:34px}
+.gh-card-meta{display:flex;gap:14px;font-size:10px;color:var(--muted);letter-spacing:0.5px}
+.gh-card-meta span{display:flex;align-items:center;gap:4px}
+.gh-lang-dot{width:7px;height:7px;border-radius:50%;background:var(--orange);display:inline-block}
+.gh-status{font-size:11px;color:var(--muted);letter-spacing:0.5px;padding:20px 0}
 
 /* STACK */
 .stack-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
@@ -197,87 +245,17 @@ footer{border-top:1px solid var(--border);padding:22px 44px;display:flex;justify
   .about-grid,.projects-grid,.exp-list{grid-template-columns:1fr}
   .skills-grid{grid-template-columns:1fr 1fr}
   .stack-grid{grid-template-columns:1fr 1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .gh-grid{grid-template-columns:1fr}
   #contact{grid-template-columns:1fr}
   footer{flex-direction:column;gap:8px;text-align:center}
   .exp-head{flex-direction:column;gap:6px}
 }
-
-/* ===== DYNAMIC ENHANCEMENTS ===== */
-#dynamic-tools{
-  position:fixed;right:20px;bottom:20px;z-index:9999;
-  display:flex;gap:8px;
-}
-.dynamic-tool{
-  border:1px solid var(--border);background:var(--surface);color:var(--white);
-  padding:10px 14px;border-radius:2px;cursor:pointer;
-  font:600 11px var(--body);letter-spacing:.5px;
-}
-.dynamic-tool:hover{border-color:var(--orange);color:var(--orange)}
-.dynamic-tool .live-dot{
-  display:inline-block;width:6px;height:6px;border-radius:50%;
-  background:#00cc66;margin-right:6px;
-}
-#dynamic-toast{
-  position:fixed;left:50%;bottom:25px;z-index:10000;
-  transform:translate(-50%,20px);opacity:0;pointer-events:none;
-  background:var(--white);color:var(--black);
-  padding:10px 16px;font-size:11px;transition:.25s;
-}
-#dynamic-toast.show{opacity:1;transform:translate(-50%,0)}
-.dynamic-stats{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:30px;
-}
-.dynamic-stat{
-  background:var(--surface);border:1px solid var(--border);padding:18px;
-}
-.dynamic-stat strong{
-  display:block;font-family:var(--display);font-size:34px;
-  line-height:1;color:var(--orange);
-}
-.dynamic-stat span{
-  display:block;margin-top:5px;font-size:9px;color:var(--muted);
-  letter-spacing:1.5px;text-transform:uppercase;
-}
-.project-filters{
-  display:flex;flex-wrap:wrap;gap:7px;margin:-28px 0 28px;
-}
-.project-filter{
-  background:transparent;color:var(--muted);border:1px solid var(--border);
-  padding:7px 11px;cursor:pointer;
-  font:600 9px var(--body);letter-spacing:1px;text-transform:uppercase;
-}
-.project-filter:hover,.project-filter.active{
-  color:var(--orange);border-color:var(--orange);
-}
-.project-card.dynamic-hidden{display:none!important}
-
-[data-theme="light"]{
-  --black:#f5f5f5;--surface:#fff;--border:#d9d9d9;
-  --white:#111;--muted:#666;--muted2:#ccc;
-}
-[data-theme="light"] nav{background:rgba(245,245,245,.94)}
-[data-theme="light"] .hero-photo{
-  background:linear-gradient(160deg,#eee,#fff)!important;
-}
-[data-theme="light"] .hero-photo > span:not(.hero-photo-label){color:#ccc!important}
-
-@media(max-width:768px){
-  #dynamic-tools{right:10px;bottom:10px}
-  .dynamic-stats{grid-template-columns:1fr}
-}
-
 </style>
 </head>
 <body>
 
-<div id="dynamic-tools">
-  <button class="dynamic-tool" id="themeButton" type="button">☼ Theme</button>
-  <button class="dynamic-tool" id="copyButton" type="button">Copy Email</button>
-</div>
-<div id="dynamic-toast" role="status" aria-live="polite"></div>
-
-
-<nav>
+<nav id="nav">
   <span class="nav-logo">KD</span>
   <a href="#home" class="active">Home</a>
   <a href="#about">About</a>
@@ -286,319 +264,389 @@ footer{border-top:1px solid var(--border);padding:22px 44px;display:flex;justify
   <a href="#contact">Contact</a>
 </nav>
 
-<!-- HERO -->
-<section id="home">
-  <div class="brackets"><span></span></div>
-
-  <div class="hero-title fi">
-    <h1>Hello<br>I'm<br>Ketan<br>Dhadve</h1>
-  </div>
-
-  <div class="hero-photo fi" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#161616,#0a0a0a);">
-    <span style="font-family:var(--display);font-size:64px;letter-spacing:4px;color:#2a2a2a;">KD</span>
-    <span class="hero-photo-label">DevOps</span>
-  </div>
-
-  <div class="hero-available fi">
-    <span class="dot"></span>Available for opportunities
-  </div>
-
-  <div class="hero-bio fi">
-    Building robust CI/CD pipelines and cloud infrastructure that lets engineering teams ship faster and sleep better. From Kubernetes clusters to Terraform modules — automation is my craft.
-  </div>
-
-  <div class="hero-year fi">© 2025–26</div>
-
-  <div class="hero-cta fi">
-    <a href="mailto:ketandhadve95@gmail.com">Hire Me →</a>
-  </div>
-
-  <div class="hero-links fi">
-    <a href="mailto:ketandhadve95@gmail.com">Email: ketandhadve95@gmail.com</a>
-    <a href="https://linkedin.com/in/ketan-dhadve-697a49357" target="_blank">LinkedIn</a>
-    <a href="https://github.com/CloudwithKetan" target="_blank">GitHub</a>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="label">About Me</div>
-  <div class="about-grid">
-    <div>
-      <h2 class="about-title fi">DevOps<br>Engineer<br>& Cloud<br>Builder</h2>
-      <p class="about-text fi">Motivated DevOps Engineer with hands-on experience in CI/CD pipeline design, containerization using Docker, Kubernetes orchestration, and cloud infrastructure across AWS, GCP, and Azure.</p>
-      <p class="about-text fi">Proficient in Terraform for Infrastructure as Code, Git-based workflows, and Linux server administration. Experienced in monitoring using Prometheus, Grafana, Datadog, and CloudWatch.</p>
-      <p class="about-text fi">BCA Graduate · Savitribai Phule Pune University · CGPA 7.8/10</p>
-    </div>
-    <div class="skills-grid fi">
-      <div class="skill-item"><strong>Cloud</strong><span>AWS · GCP · Azure</span></div>
-      <div class="skill-item"><strong>CI/CD</strong><span>Jenkins · GitHub Actions · GitLab CI</span></div>
-      <div class="skill-item"><strong>Containers</strong><span>Docker · Compose · Hub</span></div>
-      <div class="skill-item"><strong>Orchestration</strong><span>Kubernetes · kubectl</span></div>
-      <div class="skill-item"><strong>IaC</strong><span>Terraform · CloudFormation</span></div>
-      <div class="skill-item"><strong>Monitoring</strong><span>Prometheus · Grafana · Datadog</span></div>
-      <div class="skill-item"><strong>Scripting</strong><span>Bash · Shell · Python</span></div>
-      <div class="skill-item"><strong>Databases</strong><span>MySQL · PostgreSQL · MongoDB</span></div>
-      <div class="skill-item"><strong>Code Quality</strong><span>SonarQube · Trivy · OWASP</span></div>
-      <div class="skill-item"><strong>Version Control</strong><span>Git · GitHub · GitLab</span></div>
-    </div>
-  </div>
-
-<div class="dynamic-stats">
-  <div class="dynamic-stat">
-    <strong data-target="9">0</strong>
-    <span>Months Experience</span>
-  </div>
-  <div class="dynamic-stat">
-    <strong data-target="3">0</strong>
-    <span>Microservices</span>
-  </div>
-  <div class="dynamic-stat">
-    <strong data-target="10">0</strong>
-    <span>Skill Areas</span>
-  </div>
-</div>
-</section>
-
-<!-- EXPERIENCE -->
-<section id="experience">
-  <div class="label">Experience</div>
-  <div class="exp-head fi">
-    <span class="exp-company">Hisan-Labs Private Limited</span>
-    <span class="exp-date">9 Months · Pune</span>
-  </div>
-  <div class="exp-role fi">DevOps / Cloud Engineer Intern</div>
-  <ul class="exp-list fi">
-    <li>Designed Jenkins-based CI/CD pipeline reducing manual deployment effort by 60% through automated build, test, and deploy stages</li>
-    <li>Configured GitHub webhooks for automated build and deployment workflows on every code commit</li>
-    <li>Integrated SonarQube and Trivy into CI pipeline improving code quality and security posture across services</li>
-    <li>Containerized microservices using Docker with custom Dockerfiles and Docker Compose</li>
-    <li>Deployed and managed containerized microservices on AWS EKS — maintaining high availability</li>
-    <li>Configured Kubernetes HPA for traffic fluctuations with rolling update strategies for zero-downtime releases</li>
-    <li>Automated AWS EC2, VPC, IAM, and security group provisioning via Terraform — reducing setup time by 40%</li>
-    <li>Managed Terraform state files remotely using S3 backend with DynamoDB state locking</li>
-    <li>Monitored application health using Prometheus and Grafana; configured CloudWatch alerts for EC2 and RDS</li>
-    <li>Administered Linux (Ubuntu) servers: user management, cronjobs, log rotation, UFW firewall</li>
-  </ul>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="label">Projects</div>
-
-<div class="project-filters" id="projectFilters">
-  <button class="project-filter active" data-filter="all" type="button">All</button>
-  <button class="project-filter" data-filter="aws" type="button">AWS</button>
-  <button class="project-filter" data-filter="kubernetes" type="button">Kubernetes</button>
-  <button class="project-filter" data-filter="terraform" type="button">Terraform</button>
-  <button class="project-filter" data-filter="jenkins" type="button">Jenkins</button>
-</div>
-  <div class="projects-grid single">
-    <div class="project-card fi" data-project-tags="aws kubernetes terraform jenkins">
-      <div class="proj-num">01</div>
-      <div class="proj-title">B2B Medical ERP Platform (Med-Pharm)</div>
-      <div class="proj-tags">
-        <span class="tag">AWS EKS</span><span class="tag">Terraform</span><span class="tag">Jenkins</span><span class="tag">Spring Boot</span><span class="tag">MongoDB Atlas</span><span class="tag">CloudFront</span>
-      </div>
-      <ul class="proj-list">
-        <li>Architected and deployed a B2B Medical ERP platform — Spring Boot microservices (user-service, product-service, order-service) running on AWS EKS with MongoDB Atlas</li>
-        <li>Configured an Application Load Balancer with path-based routing to expose microservices through a single entry point</li>
-        <li>Deployed React/Vite frontend via CloudFront + S3 with custom domain (sahilubhe.online) and ACM-managed SSL</li>
-        <li>Built end-to-end CI/CD using Jenkins to build, test, containerize, and deploy each microservice independently to EKS</li>
-        <li>Provisioned the entire AWS infrastructure (EKS, VPC, IAM/OIDC, ALB, Route53, ACM) using modular Terraform</li>
-        <li>Diagnosed and resolved layered production issues — IAM/OIDC trust policy misconfigurations, base64-encoded Kubernetes secret bugs, CloudFront origin/OAC errors, and ALB security group blocking pod health checks</li>
-        <li>Authored detailed deployment and debugging runbooks documenting root causes and fixes for future reference</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- TECH STACK -->
-<section id="skills">
-  <div class="label">Tech Stack</div>
-  <div class="stack-grid">
-    <div class="stack-card fi"><div class="stack-cat">Cloud Platforms</div><div class="stack-items">AWS (EC2, S3, VPC, IAM, EKS)<br>Google Cloud Platform<br>Microsoft Azure</div></div>
-    <div class="stack-card fi"><div class="stack-cat">CI/CD</div><div class="stack-items">Jenkins<br>GitHub Actions<br>GitLab CI</div></div>
-    <div class="stack-card fi"><div class="stack-cat">Containers & Orchestration</div><div class="stack-items">Docker · Docker Compose<br>Docker Hub · AWS ECR<br>Kubernetes · kubectl</div></div>
-    <div class="stack-card fi"><div class="stack-cat">Infrastructure as Code</div><div class="stack-items">Terraform<br>AWS CloudFormation</div></div>
-    <div class="stack-card fi"><div class="stack-cat">Monitoring & Logging</div><div class="stack-items">Prometheus · Grafana<br>Datadog · CloudWatch<br>ELK Stack</div></div>
-    <div class="stack-card fi"><div class="stack-cat">Code Quality & Security</div><div class="stack-items">SonarQube<br>OWASP ZAP · Trivy</div></div>
-    <div class="stack-card fi"><div class="stack-cat">Scripting</div><div class="stack-items">Bash · Shell Scripting<br>Python</div></div>
-    <div class="stack-card fi"><div class="stack-cat">Databases & Build</div><div class="stack-items">MySQL · PostgreSQL · MongoDB<br>Maven · npm</div></div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div>
-    <div class="label">Contact</div>
-    <h2 class="contact-title fi">Let's<br>Work<br>Together</h2>
-    <p class="contact-sub fi">Open to DevOps Engineer roles, cloud infrastructure projects, and automation challenges. Based in Pune — open to remote too.</p>
-  </div>
-  <div class="contact-links fi">
-    <a href="mailto:ketandhadve95@gmail.com" class="c-link">
-      <div><div class="c-label">Email</div><div>ketandhadve95@gmail.com</div></div>
-      <span class="c-arrow">↗</span>
-    </a>
-    <a href="https://linkedin.com/in/ketan-dhadve-697a49357" target="_blank" class="c-link">
-      <div><div class="c-label">LinkedIn</div><div>linkedin.com/in/ketan-dhadve-697a49357</div></div>
-      <span class="c-arrow">↗</span>
-    </a>
-    <a href="https://github.com/CloudwithKetan" target="_blank" class="c-link">
-      <div><div class="c-label">GitHub</div><div>github.com/CloudwithKetan</div></div>
-      <span class="c-arrow">↗</span>
-    </a>
-    <a href="tel:+918010338009" class="c-link">
-      <div><div class="c-label">Phone</div><div>+91-8010338009</div></div>
-      <span class="c-arrow">↗</span>
-    </a>
-  </div>
-</section>
-
-<footer>
-  <span>© 2026 Ketan Dhadve — DevOps Engineer</span>
-  <span>Pune, Maharashtra, India</span>
-</footer>
+<!-- Everything below is rendered dynamically from DATA by the script at the bottom -->
+<section id="home"></section>
+<section id="stats"></section>
+<section id="about"></section>
+<section id="experience"></section>
+<section id="projects"></section>
+<section id="skills"></section>
+<section id="contact"></section>
+<footer id="footer"></footer>
 
 <script>
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('on') })
-},{threshold:0.08});
-document.querySelectorAll('.fi').forEach(el => io.observe(el));
+/* ============================================================
+   SITE DATA — edit everything here, the page renders itself.
+   ============================================================ */
+const DATA = {
+  name: "Ketan Dhadve",
+  initials: "KD",
+  photo: null, // set to a base64 or image URL to replace the placeholder
+  roles: ["DevOps Engineer", "Cloud Engineer", "Kubernetes Practitioner", "Automation Enthusiast"],
+  availability: "Available for opportunities",
+  heroBio: "Building robust CI/CD pipelines and cloud infrastructure that lets engineering teams ship faster and sleep better. From Kubernetes clusters to Terraform modules — automation is my craft.",
+  copyrightRange: "2025–26",
+  email: "ketandhadve95@gmail.com",
+  phone: "+91-8010338009",
+  phoneHref: "tel:+918010338009",
+  linkedin: "https://linkedin.com/in/ketan-dhadve-697a49357",
+  linkedinLabel: "linkedin.com/in/ketan-dhadve-697a49357",
+  github: "https://github.com/CloudwithKetan",
+  githubLabel: "github.com/CloudwithKetan",
+  githubUser: "CloudwithKetan",
+  location: "Pune, Maharashtra, India",
 
-const secs = document.querySelectorAll('section[id]');
-const links = document.querySelectorAll('nav a');
-window.addEventListener('scroll', () => {
-  let cur = '';
-  secs.forEach(s => { if(window.scrollY >= s.offsetTop - 120) cur = s.id });
-  links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#'+cur));
+  stats: [
+    { value: 9,    suffix: "",  label: "Months Experience" },
+    { value: 99.5, suffix: "%", label: "Uptime Maintained" },
+    { value: 60,   suffix: "%", label: "Faster Deployments" },
+    { value: 3,    suffix: "+", label: "Cloud Platforms" }
+  ],
+
+  about: {
+    titleHtml: "DevOps<br>Engineer<br>&amp; Cloud<br>Builder",
+    paragraphs: [
+      "Motivated DevOps Engineer with hands-on experience in CI/CD pipeline design, containerization using Docker, Kubernetes orchestration, and cloud infrastructure across AWS, GCP, and Azure.",
+      "Proficient in Terraform for Infrastructure as Code, Git-based workflows, and Linux server administration. Experienced in monitoring using Prometheus, Grafana, Datadog, and CloudWatch.",
+      "BCA Graduate · Savitribai Phule Pune University · CGPA 7.8/10"
+    ],
+    skillsGrid: [
+      { title: "Cloud", items: "AWS · GCP · Azure" },
+      { title: "CI/CD", items: "Jenkins · GitHub Actions · GitLab CI" },
+      { title: "Containers", items: "Docker · Compose · Hub" },
+      { title: "Orchestration", items: "Kubernetes · kubectl" },
+      { title: "IaC", items: "Terraform · CloudFormation" },
+      { title: "Monitoring", items: "Prometheus · Grafana · Datadog" },
+      { title: "Scripting", items: "Bash · Shell · Python" },
+      { title: "Databases", items: "MySQL · PostgreSQL · MongoDB" },
+      { title: "Code Quality", items: "SonarQube · Trivy · OWASP" },
+      { title: "Version Control", items: "Git · GitHub · GitLab" }
+    ]
+  },
+
+  experience: [
+    {
+      company: "Hisan-Labs Private Limited",
+      duration: "9 Months",
+      location: "Pune",
+      role: "DevOps / Cloud Engineer Intern",
+      bullets: [
+        "Designed Jenkins-based CI/CD pipeline reducing manual deployment effort by 60% through automated build, test, and deploy stages",
+        "Configured GitHub webhooks for automated build and deployment workflows on every code commit",
+        "Integrated SonarQube and Trivy into CI pipeline improving code quality and security posture across services",
+        "Containerized microservices using Docker with custom Dockerfiles and Docker Compose",
+        "Deployed and managed containerized microservices on AWS EKS — maintaining high availability",
+        "Configured Kubernetes HPA for traffic fluctuations with rolling update strategies for zero-downtime releases",
+        "Automated AWS EC2, VPC, IAM, and security group provisioning via Terraform — reducing setup time by 40%",
+        "Managed Terraform state files remotely using S3 backend with DynamoDB state locking",
+        "Monitored application health using Prometheus and Grafana; configured CloudWatch alerts for EC2 and RDS",
+        "Administered Linux (Ubuntu) servers: user management, cronjobs, log rotation, UFW firewall"
+      ]
+    }
+  ],
+
+  projects: [
+    {
+      num: "01",
+      title: "B2B Medical ERP Platform (Med-Pharm)",
+      tags: ["AWS EKS", "Terraform", "Jenkins", "Spring Boot", "MongoDB Atlas", "CloudFront"],
+      bullets: [
+        "Architected and deployed a B2B Medical ERP platform — Spring Boot microservices (user-service, product-service, order-service) running on AWS EKS with MongoDB Atlas",
+        "Configured an Application Load Balancer with path-based routing to expose microservices through a single entry point",
+        "Deployed React/Vite frontend via CloudFront + S3 with custom domain (sahilubhe.online) and ACM-managed SSL",
+        "Built end-to-end CI/CD using Jenkins to build, test, containerize, and deploy each microservice independently to EKS",
+        "Provisioned the entire AWS infrastructure (EKS, VPC, IAM/OIDC, ALB, Route53, ACM) using modular Terraform",
+        "Diagnosed and resolved layered production issues — IAM/OIDC trust policy misconfigurations, base64-encoded Kubernetes secret bugs, CloudFront origin/OAC errors, and ALB security group blocking pod health checks",
+        "Authored detailed deployment and debugging runbooks documenting root causes and fixes for future reference"
+      ]
+    }
+  ],
+
+  stack: [
+    { cat: "Cloud Platforms", items: "AWS (EC2, S3, VPC, IAM, EKS)<br>Google Cloud Platform<br>Microsoft Azure" },
+    { cat: "CI/CD", items: "Jenkins<br>GitHub Actions<br>GitLab CI" },
+    { cat: "Containers & Orchestration", items: "Docker · Docker Compose<br>Docker Hub · AWS ECR<br>Kubernetes · kubectl" },
+    { cat: "Infrastructure as Code", items: "Terraform<br>AWS CloudFormation" },
+    { cat: "Monitoring & Logging", items: "Prometheus · Grafana<br>Datadog · CloudWatch<br>ELK Stack" },
+    { cat: "Code Quality & Security", items: "SonarQube<br>OWASP ZAP · Trivy" },
+    { cat: "Scripting", items: "Bash · Shell Scripting<br>Python" },
+    { cat: "Databases & Build", items: "MySQL · PostgreSQL · MongoDB<br>Maven · npm" }
+  ],
+
+  contactSub: "Open to DevOps Engineer roles, cloud infrastructure projects, and automation challenges. Based in Pune — open to remote too."
+};
+
+/* ============================================================
+   RENDER FUNCTIONS
+   ============================================================ */
+function renderHome(){
+  const parts = DATA.name.split(' ');
+  document.getElementById('home').innerHTML = `
+    <div class="brackets"><span></span></div>
+    <div class="hero-title fi">
+      <h1>Hello<br>I'm<br>${parts[0]}<br>${parts.slice(1).join(' ')}</h1>
+      <span class="hero-role" id="hero-role"></span>
+    </div>
+    <div class="hero-photo fi">
+      ${DATA.photo
+        ? `<img src="${DATA.photo}" alt="${DATA.name}"/>`
+        : `<div class="hero-photo-placeholder"><span>${DATA.initials}</span></div>`}
+      <span class="hero-photo-label">DevOps</span>
+    </div>
+    <div class="hero-available fi"><span class="dot"></span>${DATA.availability}</div>
+    <div class="hero-bio fi">${DATA.heroBio}</div>
+    <div class="hero-year fi">© ${DATA.copyrightRange}</div>
+    <div class="hero-cta fi"><a href="mailto:${DATA.email}">Hire Me →</a></div>
+    <div class="hero-links fi">
+      <a href="mailto:${DATA.email}">Email: ${DATA.email}</a>
+      <a href="${DATA.linkedin}" target="_blank">LinkedIn</a>
+      <a href="${DATA.github}" target="_blank">GitHub</a>
+    </div>
+  `;
+}
+
+function renderStats(){
+  document.getElementById('stats').innerHTML = `
+    <div class="stats-grid">
+      ${DATA.stats.map(s => `
+        <div class="stat-card fi">
+          <div class="stat-number"><span class="stat-count" data-target="${s.value}">0</span><span class="suffix">${s.suffix}</span></div>
+          <div class="stat-label">${s.label}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderAbout(){
+  document.getElementById('about').innerHTML = `
+    <div class="label">About Me</div>
+    <div class="about-grid">
+      <div>
+        <h2 class="about-title fi">${DATA.about.titleHtml}</h2>
+        ${DATA.about.paragraphs.map(p => `<p class="about-text fi">${p}</p>`).join('')}
+      </div>
+      <div class="skills-grid fi">
+        ${DATA.about.skillsGrid.map(s => `
+          <div class="skill-item"><strong>${s.title}</strong><span>${s.items}</span></div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderExperience(){
+  document.getElementById('experience').innerHTML = `
+    <div class="label">Experience</div>
+    ${DATA.experience.map(job => `
+      <div class="exp-block">
+        <div class="exp-head fi">
+          <span class="exp-company">${job.company}</span>
+          <span class="exp-date">${job.duration} · ${job.location}</span>
+        </div>
+        <div class="exp-role fi">${job.role}</div>
+        <ul class="exp-list fi">
+          ${job.bullets.map(b => `<li>${b}</li>`).join('')}
+        </ul>
+      </div>
+    `).join('')}
+  `;
+}
+
+function renderProjects(){
+  const single = DATA.projects.length === 1 ? 'single' : '';
+  document.getElementById('projects').innerHTML = `
+    <div class="label">Projects</div>
+    <div class="projects-grid ${single}">
+      ${DATA.projects.map(p => `
+        <div class="project-card fi">
+          <div class="proj-num">${p.num}</div>
+          <div class="proj-title">${p.title}</div>
+          <div class="proj-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+          <ul class="proj-list">${p.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
+        </div>
+      `).join('')}
+    </div>
+    <div class="gh-head fi">
+      <h3>Latest on GitHub</h3>
+      <a href="${DATA.github}" target="_blank">View all repos ↗</a>
+    </div>
+    <div id="gh-feed" class="gh-status fi">Loading live repos from GitHub…</div>
+  `;
+}
+
+function renderSkillsSection(){
+  document.getElementById('skills').innerHTML = `
+    <div class="label">Tech Stack</div>
+    <div class="stack-grid">
+      ${DATA.stack.map(s => `
+        <div class="stack-card fi"><div class="stack-cat">${s.cat}</div><div class="stack-items">${s.items}</div></div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderContact(){
+  document.getElementById('contact').innerHTML = `
+    <div>
+      <div class="label">Contact</div>
+      <h2 class="contact-title fi">Let's<br>Work<br>Together</h2>
+      <p class="contact-sub fi">${DATA.contactSub}</p>
+    </div>
+    <div class="contact-links fi">
+      <a href="mailto:${DATA.email}" class="c-link">
+        <div><div class="c-label">Email</div><div>${DATA.email}</div></div>
+        <span class="c-arrow">↗</span>
+      </a>
+      <a href="${DATA.linkedin}" target="_blank" class="c-link">
+        <div><div class="c-label">LinkedIn</div><div>${DATA.linkedinLabel}</div></div>
+        <span class="c-arrow">↗</span>
+      </a>
+      <a href="${DATA.github}" target="_blank" class="c-link">
+        <div><div class="c-label">GitHub</div><div>${DATA.githubLabel}</div></div>
+        <span class="c-arrow">↗</span>
+      </a>
+      <a href="${DATA.phoneHref}" class="c-link">
+        <div><div class="c-label">Phone</div><div>${DATA.phone}</div></div>
+        <span class="c-arrow">↗</span>
+      </a>
+    </div>
+  `;
+}
+
+function renderFooter(){
+  const year = new Date().getFullYear();
+  document.getElementById('footer').innerHTML = `
+    <span>© ${year} ${DATA.name} — DevOps Engineer</span>
+    <span>${DATA.location}</span>
+  `;
+}
+
+/* ============================================================
+   BEHAVIOR: fade-ins, nav scrollspy, typing effect, counters, GitHub feed
+   ============================================================ */
+function initFadeIns(){
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fi').forEach(el => io.observe(el));
+}
+
+function initNavScrollSpy(){
+  const secs = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('nav a');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    secs.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+    links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + cur));
+  });
+}
+
+function initTypingEffect(){
+  const el = document.getElementById('hero-role');
+  if (!el) return;
+  const roles = DATA.roles;
+  let roleIndex = 0, charIndex = 0, deleting = false;
+
+  function tick(){
+    const current = roles[roleIndex];
+    if (!deleting){
+      charIndex++;
+      el.innerHTML = current.slice(0, charIndex) + '<span class="cursor"></span>';
+      if (charIndex === current.length){
+        deleting = true;
+        setTimeout(tick, 1400);
+        return;
+      }
+    } else {
+      charIndex--;
+      el.innerHTML = current.slice(0, charIndex) + '<span class="cursor"></span>';
+      if (charIndex === 0){
+        deleting = false;
+        roleIndex = (roleIndex + 1) % roles.length;
+      }
+    }
+    setTimeout(tick, deleting ? 35 : 75);
+  }
+  tick();
+}
+
+function initCounters(){
+  const nums = document.querySelectorAll('.stat-count');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = parseFloat(el.dataset.target);
+      const isFloat = !Number.isInteger(target);
+      const duration = 1200;
+      const start = performance.now();
+      function step(now){
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const val = target * eased;
+        el.textContent = isFloat ? val.toFixed(1) : Math.round(val);
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = isFloat ? target.toFixed(1) : target;
+      }
+      requestAnimationFrame(step);
+      io.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  nums.forEach(el => io.observe(el));
+}
+
+async function initGithubFeed(){
+  const feed = document.getElementById('gh-feed');
+  if (!feed) return;
+  try {
+    const res = await fetch(`https://api.github.com/users/${DATA.githubUser}/repos?sort=updated&per_page=6`);
+    if (!res.ok) throw new Error('GitHub API error ' + res.status);
+    const repos = await res.json();
+    if (!Array.isArray(repos) || repos.length === 0){
+      feed.textContent = 'No public repositories found.';
+      return;
+    }
+    feed.className = 'gh-grid fi';
+    feed.innerHTML = repos.slice(0, 6).map(r => `
+      <a class="gh-card" href="${r.html_url}" target="_blank">
+        <div class="gh-card-name">${r.name}</div>
+        <div class="gh-card-desc">${r.description ? r.description : 'No description provided.'}</div>
+        <div class="gh-card-meta">
+          ${r.language ? `<span><span class="gh-lang-dot"></span>${r.language}</span>` : ''}
+          <span>★ ${r.stargazers_count}</span>
+          <span>Updated ${new Date(r.updated_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+        </div>
+      </a>
+    `).join('');
+    initFadeIns();
+  } catch (err) {
+    feed.textContent = 'Could not load live GitHub data right now — visit the profile directly above.';
+  }
+}
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+function renderAll(){
+  renderHome();
+  renderStats();
+  renderAbout();
+  renderExperience();
+  renderProjects();
+  renderSkillsSection();
+  renderContact();
+  renderFooter();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderAll();
+  initFadeIns();
+  initNavScrollSpy();
+  initTypingEffect();
+  initCounters();
+  initGithubFeed();
 });
 </script>
-
-<script>
-(function(){
-  "use strict";
-
-  /* Theme */
-  var themeButton = document.getElementById("themeButton");
-  var savedTheme = localStorage.getItem("ketan-theme");
-
-  if(savedTheme === "light"){
-    document.documentElement.setAttribute("data-theme","light");
-  }
-
-  if(themeButton){
-    themeButton.addEventListener("click", function(){
-      var root = document.documentElement;
-      var isLight = root.getAttribute("data-theme") === "light";
-
-      if(isLight){
-        root.removeAttribute("data-theme");
-        localStorage.setItem("ketan-theme","dark");
-      }else{
-        root.setAttribute("data-theme","light");
-        localStorage.setItem("ketan-theme","light");
-      }
-    });
-  }
-
-  /* Copy email */
-  var copyButton = document.getElementById("copyButton");
-  var toast = document.getElementById("dynamic-toast");
-
-  function showToast(message){
-    if(!toast) return;
-    toast.textContent = message;
-    toast.classList.add("show");
-    setTimeout(function(){
-      toast.classList.remove("show");
-    },1800);
-  }
-
-  if(copyButton){
-    copyButton.addEventListener("click", function(){
-      var email = "ketandhadve95@gmail.com";
-
-      if(navigator.clipboard && window.isSecureContext){
-        navigator.clipboard.writeText(email).then(function(){
-          showToast("Email copied");
-        }).catch(function(){
-          showToast(email);
-        });
-      }else{
-        showToast(email);
-      }
-    });
-  }
-
-  /* Project filters */
-  var filterButtons = document.querySelectorAll(".project-filter");
-  var projectCards = document.querySelectorAll("[data-project-tags]");
-
-  filterButtons.forEach(function(button){
-    button.addEventListener("click", function(){
-      filterButtons.forEach(function(b){ b.classList.remove("active"); });
-      button.classList.add("active");
-
-      var filter = button.getAttribute("data-filter");
-
-      projectCards.forEach(function(card){
-        var tags = (card.getAttribute("data-project-tags") || "").split(" ");
-        var hide = filter !== "all" && tags.indexOf(filter) === -1;
-        card.classList.toggle("dynamic-hidden", hide);
-      });
-    });
-  });
-
-  /* Animated counters */
-  var counters = document.querySelectorAll("[data-target]");
-
-  function animateCounter(el){
-    if(el.dataset.animated === "true") return;
-    el.dataset.animated = "true";
-
-    var target = parseInt(el.getAttribute("data-target"),10);
-    var current = 0;
-    var increment = Math.max(1, Math.ceil(target / 20));
-
-    var timer = setInterval(function(){
-      current += increment;
-
-      if(current >= target){
-        current = target;
-        clearInterval(timer);
-      }
-
-      el.textContent = current;
-    },45);
-  }
-
-  if("IntersectionObserver" in window){
-    var counterObserver = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          animateCounter(entry.target);
-          counterObserver.unobserve(entry.target);
-        }
-      });
-    },{threshold:0.4});
-
-    counters.forEach(function(counter){
-      counterObserver.observe(counter);
-    });
-  }else{
-    counters.forEach(animateCounter);
-  }
-
-  /* Dynamic footer year */
-  var footer = document.querySelector("footer span:first-child");
-  if(footer){
-    footer.textContent =
-      "© " + new Date().getFullYear() + " Ketan Dhadve — DevOps Engineer";
-  }
-
-})();
-</script>
-
 </body>
 </html>
